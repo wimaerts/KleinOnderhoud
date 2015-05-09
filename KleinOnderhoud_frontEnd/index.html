@@ -1,0 +1,256 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="Scripts/jquery-2.1.3.min.js"></script>
+    <script src="Scripts/jquery-2.1.3.intellisense.js"></script>
+    <script src="code/myCode.js"></script>
+    <script src="Scripts/handlebars.js"></script>
+    <script src="Scripts/handlebars.runtime.js"></script>
+    <script>
+       
+
+        $( document ).ready(function() {
+            $("#content2").hide();
+            $("#content3").hide();
+            $("#content4").hide();
+
+
+        });
+           
+        
+
+        function ToonContent2() {
+            $("#content1").hide();
+            $("#content2").show();
+        }
+
+        function ToonContent3()
+        {
+            $("#content2").hide();
+            $("#content3").show();
+        }
+
+        function ToonContent4() {
+            $("#content3").hide();
+            $("#content4").show();
+
+            var theTemplateScript = $("#overzicht").html();
+            var theTemplate = Handlebars.compile(theTemplateScript);
+            var context = {
+                "naam": $("input#naam").val(),
+                "nummerplaat": $("input#nummerplaat").val(),
+                "merk": $("input#merk").val(),
+                "type": $("input#type").val(),
+                "km": $("input#km").val(),
+                "controlepunt1": $("input#Controle1").is(':checked'),
+                "controlepunt2": $("input#Controle2").is(':checked'),
+                "controlepunt3": $("input#Controle3").is(':checked')
+            };
+            var theCompiledHtml = theTemplate(context);
+            $('#content4').html(theCompiledHtml);
+        }
+
+        function Verzenden() {
+            $.ajax({
+                type : "POST",
+                url: "api/Klant",
+                data : JSON.stringify({
+                    naam: $("input#naam").val()
+                }),
+                dataType: "json",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            $.ajax({
+                type: "POST",
+                url: "/api/wagen",
+                data: JSON.stringify({
+                    merk: $("input#merk").val(),
+                    nummerplaat: $("input#nummerplaat").val(),
+                    km: $("input#km").val(),
+                    type: $("input#type").val()
+                }),
+                dataType: "json",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            $.ajax({
+                type: "POST",
+                url: "/api/wagen",
+                data: JSON.stringify({
+                    merk: $("input#merk").val(),
+                    nummerplaat: $("input#nummerplaat").val(),
+                    km: $("input#km").val(),
+                    type: $("input#type").val()
+                }),
+                dataType: "json",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            $.ajax({
+                type: "POST",
+                url: "api/Controle",
+                data: JSON.stringify({
+                    controle1: $("input#Controle1").is(":checked"),
+                    controle2: $("input#Controle2").is(":checked"),
+                    controle3: $("input#Controle3").is(":checked")
+                }),
+                dataType: "json",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            });
+        }
+       
+
+
+    </script>
+    
+    <script id="overzicht" type="text/x-handlebars-template">
+        <h2>Overzicht gegevens</h2>
+        <table>
+            <tr>
+                <td>Naam: </td>
+                <td>{{naam}}</td>
+            </tr>
+            <tr>
+                <td>Nummerplaat:</td>
+                <td>{{nummerplaat}}</td>
+            </tr>
+            <tr>
+                <td>Merk:</td>
+                <td>{{merk}}</td>
+            </tr>
+            <tr>
+                <td>Type:</td>
+                <td>{{type}}</td>
+            </tr>
+            <tr>
+                <td>Km stand:</td>
+                <td>{{km}}</td>
+            </tr>
+            <tr>
+                <td>Controlepunt 1:</td>
+                <td>{{controlepunt1}}</td>
+            </tr>
+            <tr>
+                <td>Controlepunt 2:</td>
+                <td>{{controlepunt2}}</td>
+            </tr>
+            <tr>
+                <td>Controlepunt 3:</td>
+                <td>{{controlepunt3}}</td>
+            </tr>
+        </table>
+        <button onclick="Verzenden()">Opslaan</button>
+    </script>
+
+
+
+
+</head>
+<body>
+    <header>
+        <h1>Klein Onderhoud</h1>
+        <div id="content1">
+            <h2>Ingeven persoonsgegevens</h2>
+            <table>
+                <tr>
+                    <td>
+                        naam:
+                    </td>
+                    <td>
+                        <input type="text" id="naam" />
+                    </td>
+                </tr>
+            </table>
+            
+            
+            <button onclick="ToonContent2()">volgende</button>
+
+        </div>
+        <div id="content2">
+            <h2>Ingeven wagengegevens</h2>
+            <table>
+                <tr>
+                    <td>
+                        nummerplaat:
+                    </td>
+                    <td>
+                        <input type="text" id="nummerplaat" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        merk:
+                    </td>
+                    <td>
+                        <input type="text" id="merk" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        type:
+                    </td>
+                    <td>
+                        <input type="text" id="type" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        aantal km:
+                    </td>
+                    <td>
+                        <input type="text" id="km" />
+                    </td>
+                </tr>
+            </table>
+      
+
+            <button onclick="ToonContent3()">volgende</button>
+            
+
+
+        </div>
+        <div id="content3">
+            <h2>Ingeven resultaten controlepunten</h2>
+            <table>
+                <tr>
+                    <td>Controlepunt 1:</td>
+                    <td>
+                        <input type="checkbox" id="Controle1"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Controlepunt 2:</td>
+                    <td>
+                        <input type="checkbox" id="Controle2" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Controlepunt 2:</td>
+                    <td>
+                        <input type="checkbox" id="Controle3" />
+                    </td>
+                </tr>
+            </table>
+
+            <button onclick="ToonContent4()">volgende</button>
+        </div>
+        <div id="content4">
+            
+        </div>
+    </header>
+</body>
+</html>
