@@ -12,5 +12,10 @@ namespace KleinOnderhoudApi.Models
         public bool BandenspanningOk { get; set; }
         public bool Eindresultaat { get; set; }
         public List<ControlePunt> lstControlePunt { get; set; }
+
+        public Controle()
+        {
+            lstControlePunt = new List<ControlePunt>();
+        }
     }
 }

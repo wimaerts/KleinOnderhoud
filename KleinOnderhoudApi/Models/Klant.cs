@@ -15,6 +15,8 @@ namespace KleinOnderhoudApi.Models
         public Klant(string naam)
         {
             this.Naam = naam;
+            lstWagen = new List<Wagen>();
+            lstControle = new List<Controle>();
         }
     }
 }
